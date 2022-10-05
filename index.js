@@ -1,6 +1,34 @@
 import { tweetsData } from './data.js'
 import { v4 as uuidv4 } from 'https://jspm.dev/uuid'
 
+let likeFromLocalStorage = JSON.parse(localStorage.getItem("like"))
+let retweetFromLocalStorage = JSON.parse(localStorage.getItem("retweet"))
+
+
+
+
+if(likeFromLocalStorage) {
+    tweetsData.forEach(function(tweet) {
+        tweet.likes++
+    })
+}
+
+
+
+
+
+// if(retweetFromLocalStorage) {
+//     console.log("you retweet me!")
+// }else {
+//     console.log("won't you retweet me?")
+// }
+
+
+
+
+
+
+
 
 document.addEventListener('click', function (e) {
     if (e.target.dataset.like) {
@@ -29,6 +57,7 @@ function handleLikeClick(tweetId) {
         targetTweetObj.likes++
     }
     targetTweetObj.isLiked = !targetTweetObj.isLiked
+    localStorage.setItem("like", JSON.stringify(targetTweetObj.isLiked))
     render()
 }
 
@@ -44,6 +73,7 @@ function handleRetweetClick(tweetId) {
         targetTweetObj.retweets++
     }
     targetTweetObj.isRetweeted = !targetTweetObj.isRetweeted
+    localStorage.setItem("retweet", JSON.stringify(targetTweetObj.isRetweeted))
     render()
 }
 
@@ -153,4 +183,3 @@ function render() {
 
 render()
 
-localStorage.clear()
