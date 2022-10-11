@@ -133,10 +133,11 @@ textarea{
     display: none;
 }
 
-
 /* delete button style */
 .del {
     color: red;
     position: absolute;
     right: 35%;
+    border: none;
+    background-color: white;
 }
