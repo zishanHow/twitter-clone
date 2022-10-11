@@ -1,32 +1,28 @@
-import { tweetsData } from './data.js'
+import { tweetsData as tweets } from './data.js'
 import { v4 as uuidv4 } from 'https://jspm.dev/uuid'
 
-let likeFromLocalStorage = JSON.parse(localStorage.getItem("like"))
-let retweetFromLocalStorage = JSON.parse(localStorage.getItem("retweet"))
+// let likeFromLocalStorage = JSON.parse(localStorage.getItem("like"))
+// let retweetFromLocalStorage = JSON.parse(localStorage.getItem("retweet"))
+
+let tweetsData = [...tweets] 
 
 
-
-
-if(likeFromLocalStorage) {
-    tweetsData.forEach(function(tweet) {
-        tweet.likes++
-    })
+if(localStorage.getItem('tweets')){
+    tweetsData = JSON.parse(localStorage.getItem('tweets'))
 }
 
 
-
-
+// if (likeFromLocalStorage) {
+//     tweetsData.forEach(function (tweet) {
+//         tweet.likes++
+//     })
+// }
 
 // if(retweetFromLocalStorage) {
 //     console.log("you retweet me!")
 // }else {
 //     console.log("won't you retweet me?")
 // }
-
-
-
-
-
 
 
 
@@ -47,6 +43,10 @@ document.addEventListener('click', function (e) {
     else if (e.target.dataset.del) {
         handleDeleteTweet(e.target.dataset.del)
     }
+    /* // reply to tweet. it didn't work, i will work with it later
+    else if(e.target.dataset.replyMe) {
+        handleReplyBtnClick(e.target.dataset.replyMe)
+    } */
 })
 
 function handleLikeClick(tweetId) {
@@ -61,7 +61,7 @@ function handleLikeClick(tweetId) {
         targetTweetObj.likes++
     }
     targetTweetObj.isLiked = !targetTweetObj.isLiked
-    localStorage.setItem("like", JSON.stringify(targetTweetObj.isLiked))
+    saveToStorage()
     render()
 }
 
@@ -77,7 +77,7 @@ function handleRetweetClick(tweetId) {
         targetTweetObj.retweets++
     }
     targetTweetObj.isRetweeted = !targetTweetObj.isRetweeted
-    localStorage.setItem("retweet", JSON.stringify(targetTweetObj.isRetweeted))
+    saveToStorage()
     render()
 }
 
@@ -100,23 +100,44 @@ function handleTweetBtnClick() {
             isRetweeted: false,
             uuid: uuidv4()
         })
+        saveToStorage()
         render()
         tweetInput.value = ''
     }
 
 }
 
+
 // I ADD, but i don't understand this function i just copy it. 
-function handleDeleteTweet(tweetId){
-    const targetTweet = tweetsData.map((tweet)=>tweet.uuid).indexOf(tweetId)
+function handleDeleteTweet(tweetId) {
+    const targetTweet = tweetsData.map((tweet) => tweet.uuid).indexOf(tweetId)
     tweetsData.splice(targetTweet, 1)
-    //saveToStorage()
+    saveToStorage()
     render()
 }
 
 
+/* // reply to tweet. it didn't work, i will work with it later
+function handleReplyBtnClick(replyUuid){
+    const input = document.getElementById(`tweet-input-${replyUuid}`)
+    const newReply = {
+        handle: `@Frances ✅`,
+        profilePic: `images/profilePick.jpg`,
+        tweetText: input.value,
+    }
+    const targetTweet = tweetsData.filter((tweet)=>{
+        return replyUuid === tweet.uuid
+    })[0]
+    targetTweet.replies.unshift(newReply)
+    input.value = ''
+    // saveToStorage()
+    render()
+} */
 
 
+function saveToStorage(){
+    localStorage.setItem('tweets', JSON.stringify(tweetsData))
+}
 
 
 
@@ -143,18 +164,30 @@ function getFeedHtml() {
         if (tweet.replies.length > 0) {
             tweet.replies.forEach(function (reply) {
                 repliesHtml += `
-<div class="tweet-reply">
-    <div class="tweet-inner">
-        <img src="${reply.profilePic}" class="profile-pic">
-            <div>
-                <p class="handle">${reply.handle}</p>
-                <p class="tweet-text">${reply.tweetText}</p>
-            </div>
-        </div>
-</div>
-`
+                    <div class="tweet-reply">
+                        <div class="tweet-inner">
+                            <img src="${reply.profilePic}" class="profile-pic">
+                                <div>
+                                    <p class="handle">${reply.handle}</p>
+                                    <p class="tweet-text">${reply.tweetText}</p>
+                                </div>
+                            </div>
+                    </div>
+                    `
             })
         }
+
+        /* 
+        // reply to tweet. it didn't work, i will work with it later
+        repliesHtml += `
+            <div class="reply">
+                <textarea placeholder="Tweet your reply" id="tweet-input-${tweet.uuid}"></textarea>
+                <button 
+                    class="reply-btn" 
+                    data-replyMe="${tweet.uuid}"
+                >Reply</button>
+            </div>
+            ` */
 
 
         feedHtml += `
