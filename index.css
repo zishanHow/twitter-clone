@@ -61,7 +61,7 @@ textarea{
     line-height: 30px;
 }
 
-button{
+.tweet-btn{
     background-color: #1DA1F2;
     border: none;
     color: white;
@@ -131,4 +131,12 @@ button{
 /* utility */
 .hidden{
     display: none;
+}
+
+
+/* delete button style */
+.del {
+    color: red;
+    position: absolute;
+    right: 35%;
 }

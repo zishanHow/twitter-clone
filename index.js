@@ -43,6 +43,10 @@ document.addEventListener('click', function (e) {
     else if (e.target.id === 'tweet-btn') {
         handleTweetBtnClick()
     }
+    // I ADD 
+    else if (e.target.dataset.del) {
+        handleDeleteTweet(e.target.dataset.del)
+    }
 })
 
 function handleLikeClick(tweetId) {
@@ -102,6 +106,20 @@ function handleTweetBtnClick() {
 
 }
 
+// I ADD, but i don't understand this function i just copy it. 
+function handleDeleteTweet(tweetId){
+    const targetTweet = tweetsData.map((tweet)=>tweet.uuid).indexOf(tweetId)
+    tweetsData.splice(targetTweet, 1)
+    //saveToStorage()
+    render()
+}
+
+
+
+
+
+
+
 function getFeedHtml() {
     let feedHtml = ``
 
@@ -144,6 +162,9 @@ function getFeedHtml() {
     <div class="tweet-inner">
         <img src="${tweet.profilePic}" class="profile-pic">
         <div>
+            <div class="deleteBtn">
+                <button class="del" id="del-btn${tweet.uuid}" data-del="${tweet.uuid}">X</button>
+            </div>
             <p class="handle">${tweet.handle}</p>
             <p class="tweet-text">${tweet.tweetText}</p>
             <div class="tweet-details">
