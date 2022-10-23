@@ -43,10 +43,10 @@ document.addEventListener('click', function (e) {
     else if (e.target.dataset.del) {
         handleDeleteTweet(e.target.dataset.del)
     }
-    /* // reply to tweet. it didn't work, i will work with it later
-    else if(e.target.dataset.replyMe) {
-        handleReplyBtnClick(e.target.dataset.replyMe)
-    } */
+    // reply to tweet. it didn't work, i will work with it later
+    else if(e.target.dataset.comment){
+        handleCommentBtnClick(e.target.dataset.comment)
+    }
 })
 
 function handleLikeClick(tweetId) {
@@ -117,22 +117,22 @@ function handleDeleteTweet(tweetId) {
 }
 
 
-/* // reply to tweet. it didn't work, i will work with it later
-function handleReplyBtnClick(replyUuid){
-    const input = document.getElementById(`tweet-input-${replyUuid}`)
-    const newReply = {
-        handle: `@Frances ✅`,
-        profilePic: `images/profilePick.jpg`,
-        tweetText: input.value,
-    }
-    const targetTweet = tweetsData.filter((tweet)=>{
-        return replyUuid === tweet.uuid
+// reply to tweet. it didn't work, i will work with it later
+function handleCommentBtnClick(tweetId){
+    const targetTweetObj = tweetsData.filter((tweet)=>{
+        return tweetId === tweet.uuid
     })[0]
-    targetTweet.replies.unshift(newReply)
-    input.value = ''
-    // saveToStorage()
-    render()
-} */
+    
+    let textComments = document.getElementById(`comments-${tweetId}`).value
+    if(textComments){
+        targetTweetObj.replies.unshift({
+            handle: '@Scrimba',
+            profilePic: `images/scrimbalogo.png`,
+            tweetText: textComments
+        })
+        render()
+    } 
+}
 
 
 function saveToStorage(){
@@ -177,19 +177,6 @@ function getFeedHtml() {
             })
         }
 
-        
-        // reply to tweet. it didn't work, i will work with it later
-        /* repliesHtml += `
-            <div class="reply">
-                <textarea placeholder="Tweet your reply" id="tweet-input-${tweet.uuid}"></textarea>
-                <button 
-                    class="reply-btn" 
-                    data-replyMe="${tweet.uuid}"
-                >Reply</button>
-            </div>
-            ` */
-
-
         feedHtml += `
 <div class="tweet">
     <div class="tweet-inner">
@@ -227,12 +214,13 @@ function getFeedHtml() {
 
 
 
-    <div class="reply">
-        <textarea placeholder="Tweet your reply" id="tweet-input-${tweet.uuid}"></textarea>
-        <button 
-            class="reply-btn" 
-            data-replyMe="${tweet.uuid}"
-        >Reply</button>
+    <div class="tweet-comment">
+        <img src='images/scrimbalogo.png' class='profile-pic'/>
+        <div class='tweet-comment-inner'>
+            <p class="handle">@Scrimba</p>
+            <textarea id='comments-${tweet.uuid}' placeholder="type comment here..." class="tweet-text tweet-comment-textarea"></textarea>
+            <button class="comment-btn" data-comment="${tweet.uuid}">Comment</button>
+        </div>
     </div>
 
 
