@@ -177,9 +177,9 @@ function getFeedHtml() {
             })
         }
 
-        /* 
+        
         // reply to tweet. it didn't work, i will work with it later
-        repliesHtml += `
+        /* repliesHtml += `
             <div class="reply">
                 <textarea placeholder="Tweet your reply" id="tweet-input-${tweet.uuid}"></textarea>
                 <button 
@@ -223,6 +223,20 @@ function getFeedHtml() {
         </div>            
     </div>
     <div class="hidden" id="replies-${tweet.uuid}">
+
+
+
+
+    <div class="reply">
+        <textarea placeholder="Tweet your reply" id="tweet-input-${tweet.uuid}"></textarea>
+        <button 
+            class="reply-btn" 
+            data-replyMe="${tweet.uuid}"
+        >Reply</button>
+    </div>
+
+
+
         ${repliesHtml}
     </div>   
 </div>
