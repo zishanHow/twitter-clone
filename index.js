@@ -4,10 +4,10 @@ import { v4 as uuidv4 } from 'https://jspm.dev/uuid'
 // let likeFromLocalStorage = JSON.parse(localStorage.getItem("like"))
 // let retweetFromLocalStorage = JSON.parse(localStorage.getItem("retweet"))
 
-let tweetsData = [...tweets] 
+let tweetsData = [...tweets]
 
 
-if(localStorage.getItem('tweets')){
+if (localStorage.getItem('tweets')) {
     tweetsData = JSON.parse(localStorage.getItem('tweets'))
 }
 
@@ -44,7 +44,7 @@ document.addEventListener('click', function (e) {
         handleDeleteTweet(e.target.dataset.del)
     }
     // reply to tweet. it didn't work, i will work with it later
-    else if(e.target.dataset.comment){
+    else if (e.target.dataset.comment) {
         handleCommentBtnClick(e.target.dataset.comment)
     }
 })
@@ -107,7 +107,6 @@ function handleTweetBtnClick() {
 
 }
 
-
 // I ADD, but i don't understand this function i just copy it. 
 function handleDeleteTweet(tweetId) {
     const targetTweet = tweetsData.map((tweet) => tweet.uuid).indexOf(tweetId)
@@ -116,30 +115,27 @@ function handleDeleteTweet(tweetId) {
     render()
 }
 
-
 // reply to tweet. it didn't work, i will work with it later
-function handleCommentBtnClick(tweetId){
-    const targetTweetObj = tweetsData.filter((tweet)=>{
+function handleCommentBtnClick(tweetId) {
+    const targetTweetObj = tweetsData.filter((tweet) => {
         return tweetId === tweet.uuid
     })[0]
-    
+
     let textComments = document.getElementById(`comments-${tweetId}`).value
-    if(textComments){
+    if (textComments) {
         targetTweetObj.replies.unshift({
             handle: '@Scrimba',
             profilePic: `images/scrimbalogo.png`,
             tweetText: textComments
         })
+        saveToStorage()
         render()
-    } 
+    }
 }
 
-
-function saveToStorage(){
+function saveToStorage() {
     localStorage.setItem('tweets', JSON.stringify(tweetsData))
 }
-
-
 
 function getFeedHtml() {
     let feedHtml = ``
@@ -213,7 +209,6 @@ function getFeedHtml() {
 
 
 
-
     <div class="tweet-comment">
         <img src='images/scrimbalogo.png' class='profile-pic'/>
         <div class='tweet-comment-inner'>
@@ -238,4 +233,3 @@ function render() {
 }
 
 render()
-
