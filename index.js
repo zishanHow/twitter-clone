@@ -1,30 +1,11 @@
 import { tweetsData as tweets } from './data.js'
 import { v4 as uuidv4 } from 'https://jspm.dev/uuid'
 
-// let likeFromLocalStorage = JSON.parse(localStorage.getItem("like"))
-// let retweetFromLocalStorage = JSON.parse(localStorage.getItem("retweet"))
-
 let tweetsData = [...tweets]
-
 
 if (localStorage.getItem('tweets')) {
     tweetsData = JSON.parse(localStorage.getItem('tweets'))
 }
-
-
-// if (likeFromLocalStorage) {
-//     tweetsData.forEach(function (tweet) {
-//         tweet.likes++
-//     })
-// }
-
-// if(retweetFromLocalStorage) {
-//     console.log("you retweet me!")
-// }else {
-//     console.log("won't you retweet me?")
-// }
-
-
 
 document.addEventListener('click', function (e) {
     if (e.target.dataset.like) {
