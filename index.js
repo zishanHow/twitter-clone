@@ -109,9 +109,10 @@ function handleCommentBtnClick(tweetId) {
             profilePic: `images/scrimbalogo.png`,
             tweetText: textComments
         })
-        saveToStorage()
-        render()
     }
+
+    saveToStorage()
+    render()
 }
 
 function saveToStorage() {
